@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SNI - InnleggGenrator</title>
+    <title>Facebook Post Generator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="container">
+    <h1>Facebook Post Generator</h1>
+    <form id="postForm">
+        <label for="url">Link URL:</label>
+        <input type="url" id="url" required>
 
-    <div class="continer">
-        <form action="">
-            <label>Enter article URL: </label><input type="text" required placeholder="https://www.sil.no/...">
-            <button type="submit">submit</button>
-        </form>
-    </div>
+        <label for="language">Språk/Language:</label>
+        <select id="language">
+            <option value="norsk" selected>Norsk</option>
+            <option value="english">English</option>
+        </select>
 
-    <script src="script.js"></script>
+        <button type="button" onclick="generatePost()">Generate Post Suggestions</button>
+    </form>
+
+    <h2>Generated Facebook Post Suggestions:</h2>
+    <div class="output-box" id="postOutput"></div>
+    <button onclick="copyText()">Copy Suggestions</button>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

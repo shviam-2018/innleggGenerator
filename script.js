@@ -8,7 +8,7 @@ async function generatePost() {
     // Make sure this matches your server endpoint
     const apiUrl = 'http://localhost:5000/generate-post'; // Updated to include the endpoint
 
-    const promptText = `Generate 2 to 5 engaging Facebook post suggestions in ${language === 'norsk' ? 'Norwegian' : 'English'} for this link: ${url}`;
+    const promptText = `Bruk det konkrete innholdet på følgende URL: ${url}. Lag en oppsummerende, engasjerende delingstekst til Facebook som gjør at folk får lyst til å åpne linken. I ${language === 'norsk' ? 'Norwegian' : 'English'}`;
 
     try {
         const response = await fetch(apiUrl, {

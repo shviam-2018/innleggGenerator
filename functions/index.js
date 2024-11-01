@@ -12,7 +12,13 @@ app.use(express.json());
 // Endpoint to handle incoming requests
 app.post('/generate-post', async (req, res) => {
     const { url } = req.body;
-    const promptText = `Bruk det konkrete innholdet på følgende URL: "${url}",Lag en oppsummerende, engasjerende delingstekst på to-tre setninger til Facebook som gjør at folk får lyst til å åpne linken.`;
+    const promptText = `Lag en fengende delingstekst til Facebook på norsk basert på denne konteksten: ${url}
+Teksten bør:
+Være kort og presis (maks 280 tegn)
+Vekke nysgjerrighet og interesse
+Være relevant for innholdet i artikkelen
+Ha fokus på Storhamar Hockey - da delingstekstens skal deles på Storhamars facebookside
+Målet er å få folk til å klikke på lenken og lese hele artikkelen. Unngå åpenbare clickbait-taktikker, men fokuser på å formidle verdien av innholdet på en engasjerende måte.`;
 
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {

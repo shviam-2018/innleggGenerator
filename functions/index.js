@@ -1,53 +1,47 @@
-import functions from 'firebase-functions';
 import express from 'express';
 import cors from 'cors';
-import fetch from 'node-fetch';
 import dotenv from 'dotenv';
+import functions from 'firebase-functions';
 
 dotenv.config();
 
-const apiKey = process.env.OPENAI_API_KEY || functions.config().openai.key; // Use functions.config() if you're setting it in Firebase
-
 const app = express();
-app.use(cors()); // Enable all CORS requests
+app.use(cors({ origin: true })); // Enable CORS with all origins allowed
 app.use(express.json());
 
+// Endpoint to handle incoming requests
 app.post('/generate-post', async (req, res) => {
-    const { url, language } = req.body;  // Extracting url and language from request body
-    const promptText = `Bruk det konkrete innholdet på følgende URL: ${url} Lag en oppsummerende, engasjerende delingstekst til Facebook som gjør at folk får lyst til å åpne linken.`;
+    const { url } = req.body;
+    const promptText = `Bruk det konkrete innholdet på følgende URL: "${url}",Lag en oppsummerende, engasjerende delingstekst på to-tre setninger til Facebook som gjør at folk får lyst til å åpne linken.`;
 
     try {
-        // Call your custom API
-        const response = await fetch('https://api-djti3myiqa-uc.a.run.app', {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`, // Assuming your custom API needs this
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'gpt-4', // If necessary, include this in your request to your custom API
+                model: 'gpt-4',
                 messages: [{ role: 'user', content: promptText }],
                 max_tokens: 150,
             }),
         });
 
-        // Handle the response from your custom API
-        const data = await response.json();
-
-        // Check if the response contains choices
-        if (!data.choices || data.choices.length === 0) {
-            return res.status(404).json({ error: 'No suggestions found.' });
+        if (!response.ok) {
+            console.error('Response from OpenAI failed:', response.status, response.statusText);
+            return res.status(response.status).json({ error: 'Failed to fetch data from OpenAI API' });
         }
 
+        const data = await response.json();
         const suggestions = data.choices.map((choice) => choice.message.content);
-        res.json({ suggestions }); // Send the suggestions back to the client
+
+        res.json({ suggestions });
     } catch (error) {
-        console.error('Error generating post suggestions:', error);
-        res.status(500).json({ error: 'An error occurred while generating post suggestions.' });
+        console.error('Error generating post suggestions:', error.message, error.stack);
+        res.status(500).json({ error: 'An internal server error occurred' });
     }
 });
 
-// Add a CORS preflight handler for OPTIONS requests
-app.options('/generate-post', cors());
-
+// Export the `app` as a Firebase function
 export const api = functions.https.onRequest(app);

@@ -9,9 +9,8 @@ dotenv.config();
 const app = express();
 const PORT = 5000;
 
-// Middleware to parse JSON requests
 app.use(cors());
-app.use(express.json()); // Make sure to add this line
+app.use(express.json()); // Middleware to parse JSON bodies
 
 app.post('/generate-post', async (req, res) => {
     const { url, language } = req.body;
@@ -35,10 +34,15 @@ app.post('/generate-post', async (req, res) => {
         });
 
         const data = await response.json();
-        console.log("OpenAI Response:", data); // Log OpenAI API response
+        console.log("OpenAI API Response:", data); // Log the response here
 
-        // Ensure suggestions are in an array format before sending
-        const suggestions = data.choices.map(choice => choice.message.content);
+        // Check if the data has the expected structure
+        if (!data.choices || data.choices.length === 0) {
+            return res.status(500).json({ error: "No suggestions received." });
+        }
+
+        const suggestions = data.choices.map(choice => choice.message.content).join("\n\n");
+
         res.json({ suggestions });
     } catch (error) {
         console.error("Error generating post suggestions:", error);

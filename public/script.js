@@ -6,7 +6,7 @@ async function generatePost() {
     console.log('Generating post for URL:', url, 'and language:', language); // Debug log
 
     try {
-        const response = await fetch('https://api-djti3myiqa-uc.a.run.app/generate-post', {
+        const response = await fetch('https://api-djti3myiqa-uc.a.run.app/generate-post',{      //https://api-djti3myiqa-uc.a.run.app/generate-post
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

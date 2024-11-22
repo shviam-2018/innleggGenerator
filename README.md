@@ -4,16 +4,16 @@ A web application designed to generate engaging social media posts for Facebook 
 
 ## Overview
 
-This project allows users to input a URL and select a language (English or Norwegian). It then generates a concise, attention-grabbing social media post suitable for sharing on Facebook.
+This project allows users to input a URL and select a language (English or Norwegian)*. It then generates a concise, attention-grabbing social media post suitable for sharing on Facebook.
 
 ## Live Demo
 
 Check out the live version here:  
-[Innlegg Generator](https://kristiandrom-innlege-genrator.web.app/)
+[Innlegg Generator](https://kristiandrom-innlege-genrator.firebaseapp.com/)
 
 ## Features
 
-- Generate social media posts in either English or Norwegian.
+- Generate social media posts in either English or Norwegian.(under development)
 - Uses OpenAI's GPT-4 to create relevant and engaging content.
 - Simple and user-friendly interface.
 - Firebase-hosted backend for handling requests securely.
@@ -22,7 +22,7 @@ Check out the live version here:
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
+- Node.js (v18)
 - Firebase CLI
 - OpenAI API key
 

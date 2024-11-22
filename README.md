@@ -72,4 +72,4 @@ Check out the live version here:
 Pull requests are welcome! Please ensure any new features or fixes are well-documented and tested.
 
 ###License
-This project is licensed under the MIT [License](). See the LICENSE file for more details.
+This project is licensed under the MIT [License](LICENSE). See the LICENSE file for more details.
